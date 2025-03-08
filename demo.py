@@ -32,6 +32,49 @@ evidence(heads(3), false)."""
 
 query(weather(_,10)).""" 
 
+    elif inp == 4:
+        string = """person(john).
+person(mary).
+
+0.001::burglary.
+0.02::earthquake.
+
+0.9::alarm :- burglary.
+0.1::alarm :- earthquake, \+burglary.
+0.001::alarm :- \+burglary, \+earthquake.
+
+0.95::calls(mary) :- alarm.
+0.001::calls(mary) :- \+alarm.
+0.9::calls(john) :- alarm.
+0.0::calls(john) :- \+alarm.
+
+
+evidence(calls(_)).
+
+query(alarm).
+query(burglary).
+query(earthquake)."""
+    
+    elif inp == 5:
+        string = """weight(skis,6).
+weight(boots,4).
+weight(helmet,3).
+weight(gloves,2).
+
+P::pack(Item) :- weight(Item,Weight), P is 1.0/Weight.
+
+excess(Limit) :- excess([skis,boots,helmet,gloves],Limit).
+
+excess([],Limit) :- Limit<0.
+excess([I|R],Limit) :- pack(I), weight(I,W), L is Limit-W, excess(R,L).
+excess([I|R],Limit) :- \+pack(I), excess(R,Limit).
+
+constraint :- pack(helmet).
+constraint :- pack(boots).
+
+evidence(constraint).
+evidence(excess(10),false).
+query(pack(_))."""
 
     print("\033[F", end="")
     print(string)
